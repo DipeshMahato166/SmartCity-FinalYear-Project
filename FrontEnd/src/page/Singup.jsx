@@ -28,8 +28,8 @@ const Singup = () => {
 
 
         <div className='flex  font-serif justify-center items-center flex-col  pt-20 p-10 h-screen '>
-            <div className='bg-[#0e2841]/20 flex flex-col justify-center items-center  shadow-2xl rounded-2xl h-150'>
-                <h1 className='font-bold text-4xl  text-slate-600'>Signup</h1>
+            <div className=' flex flex-col justify-center items-center  shadow-2xl rounded-2xl h-150'>
+                <h1 className='font-bold text-4xl  text-[#003893]'>Signup</h1>
                 <form onSubmit={handleSubmit}>
                     <div className='flex flex-col gap-6 w-fit p-10 ' >
 
@@ -65,7 +65,7 @@ const Singup = () => {
                             name="Password"
                             value={formData.Password}
                         />
-                        <button type='submit' className='border rounded-2xl bg-[#0e2841]/60 h-10 text-white  hover:bg-[#0e2841]'>
+                        <button type='submit' className='border rounded-2xl bg-[#DC143C] h-10 text-white  hover:bg-[#B01030]'>
                             Submit
                         </button>
                     </div>

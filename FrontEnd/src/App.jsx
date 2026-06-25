@@ -15,27 +15,27 @@ const App = () => {
     {
       path: "/",
       element: <HomeLayout />,
-      children:[
+      children: [
         {
-      path: "/",
-      element: <Herosec />
-    },
-      {
-      path: "/services",
-      element: <Services/>
-    },
-    {
-      path: "/event",
-      element: <Event/>
-    },
-    {
-      path: "/gallery",
-      element: <Gallery/>
-    },
-    {
-      path: "/emergency",
-      element: <Emergency/>
-    }
+          path: "/",
+          element: <Herosec />
+        },
+        {
+          path: "/services",
+          element: <Services />
+        },
+        {
+          path: "/event",
+          element: <Event />
+        },
+        {
+          path: "/gallery",
+          element: <Gallery />
+        },
+        {
+          path: "/emergency",
+          element: <Emergency />
+        }
       ]
     },
     {
@@ -44,7 +44,7 @@ const App = () => {
     },
     {
       path: "/signup",
-      element: <Singup/>
+      element: <Singup />
     }
   ])
   return (

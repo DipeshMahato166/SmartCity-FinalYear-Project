@@ -9,12 +9,12 @@ const Herosec = () => {
       <img
         src="https://marditreknepal.com/wp-content/uploads/2025/05/Mountaintop-Temple-with-Prayer-Flags.webp"
         alt="Hero"
-        className="h-172 w-full object-cover"
+        className="h-screen w-full object-cover"
       />
 
       <div className="absolute inset-0 bg-black/70"></div>
 
-      <div className="absolute z-10 flex flex-col items-center gap-y-4 p-6">
+      <div className="absolute z-10 flex flex-col items-center gap-y-4 p-6 pt-10">
         <h1 className="text-4xl md:text-6xl lg:text-7xl text-white text-center">
           Your City, Your Services,
         </h1>
@@ -33,7 +33,7 @@ const Herosec = () => {
 
     <button
       type="submit"
-      className="absolute right-4 top-1/2 -translate-y-1/2 text-[#DC143C]"
+      className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[#DC143C]"
     >
       <FaSearch size={30} />
     </button>
