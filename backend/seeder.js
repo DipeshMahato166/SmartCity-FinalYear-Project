@@ -1,47 +1,100 @@
 const mongoose = require("mongoose");
-const dotenv = require('dotenv');
-const Notice = require('./models/Notice');
-const User = require('./models/User');
-const notices = require('./data/notices')
+const dotenv = require("dotenv");
+
+const Notice = require("./models/Notice");
+const User = require("./models/User");
+const Department = require("./models/Department");
+
+const notices = require("./data/notices");
 
 dotenv.config();
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URL);
 
-// Function to seed data
-
 const seedData = async () => {
-    try {
-        // Clear existing data
-        await Notice.deleteMany();
-        await User.deleteMany();
+  try {
+    await Notice.deleteMany();
+    await User.deleteMany();
+    await Department.deleteMany();
 
+    //
+    // Create Admin First
+    //
 
-        // Create a default admin User
-        const createdUser = await User.create({
-            name: "Admin User",
-            email: "admin@example.com",
-            password: "123456",
-            role: "admin"
-        })
+    const createdUser = await User.create({
+      name: "Admin User",
 
-        // Assign the default user ID to each product 
-        const userID = createdUser._id
+      email: "admin@example.com",
 
-        const sampleNotices = notices.map((notice) => {
-            return { ...notice, createdBy: userID };
-        })
+      password: "123456",
 
-        // Insert the products into the database
-        await Notice.insertMany(sampleNotices);
+      role: "admin",
+    });
 
-        console.log("Notice data seeded successfully");
-        process.exit();
-    } catch (error) {
-        console.error('Error seeding the data:', error)
-        process.exit(1);
-    }
-}
+    //
+    // Create Departments
+    //
 
-seedData(); 
+    const electricity = await Department.create({
+      name: "Electricity Department",
+
+      email: "electricity@city.com",
+
+      password: "electricity@123",
+
+      phone: "9804702922",
+
+      address: "Saptari",
+
+      admin: createdUser._id,
+    });
+
+    const water = await Department.create({
+      name: "Water Department",
+
+      email: "water@city.com",
+
+      password: "water@123",
+
+      phone: "9812060473",
+
+      address: "Janakpur",
+
+      admin: createdUser._id,
+    });
+
+    //
+    // Notice Mapping
+    //
+
+    const sampleNotices = notices.map((notice) => {
+      let departmentId;
+
+      if (notice.department === "electricity") {
+        departmentId = electricity._id;
+      } else if (notice.department === "water") {
+        departmentId = water._id;
+      }
+
+      return {
+        ...notice,
+
+        department: departmentId,
+
+        createdBy: createdUser._id,
+      };
+    });
+
+    await Notice.insertMany(sampleNotices);
+
+    console.log("Seed completed");
+
+    process.exit();
+  } catch (error) {
+    console.log(error);
+
+    process.exit(1);
+  }
+};
+
+seedData();

@@ -1,27 +1,48 @@
 const express = require("express");
 const Notice = require("../models/Notice");
-const { protect, admin } = require("../middleware/authMiddleware");
+const { departmentProtect } = require("../middleware/departmentAuth");
+const {
+  uploadFileToCloudinary,
+  multerMiddleware,
+} = require("../config/cloudinaryConfig");
 
 const router = express.Router();
 
 // @route POST /api/notices
 // @desc Create a new Notice
 // @access Private/Admin
-router.post("/", protect, admin, async (req, res) => {
+router.post("/", departmentProtect, multerMiddleware, async (req, res) => {
   try {
-    const { title, description, department, image, priority } = req.body;
+    const {
+      title,
+      description,
+      municipality,
+      ward,
+      department,
+      attachment,
+      priority,
+    } = req.body;
+
+    let attachments = [];
+
+    // PDF/Image upload
+    if (req.file) {
+      const upload = await uploadFileToCloudinary(req.file);
+
+      attachments.push({ url: upload.secure_url, altText: "Notice attachment" });
+    }
 
     const notice = new Notice({
       title,
       description,
-      department,
+      department: req.department._id,
       ward,
       municipality,
-      attachment,
+      attachment: attachments,
       priority,
-      status,
-      publishedBy,
-      createdBy: req.user._id, // Reference to the admin user who create it
+      status: "active",
+      publishedBy: req.department.name,
+      createdBy: req.department._id, // Reference to the admin user who create it
     });
 
     const createNotice = await notice.save();
@@ -36,7 +57,7 @@ router.post("/", protect, admin, async (req, res) => {
 // @route PUT /api/notices/:id
 // @desc Update an existing notice ID
 // @access Private/Admin
-router.put("/:id", protect, admin, async (req, res) => {
+router.put("/:id", departmentProtect, multerMiddleware, async (req, res) => {
   try {
     const {
       title,
@@ -47,30 +68,46 @@ router.put("/:id", protect, admin, async (req, res) => {
       attachment,
       priority,
       status,
-      publishedBy,
     } = req.body;
 
     // Find notice by ID
     const notice = await Notice.findById(req.params.id);
 
-    if (notice) {
-      // Update Notice fields
-      notice.title = title || notice.title;
-      notice.description = description || notice.description;
-      notice.department = department || notice.department;
-      notice.ward = ward || notice.ward;
-      notice.attachment = attachment || notice.attachment;
-      notice.priority = priority || notice.priority;
-      notice.status = status || notice.status;
-      notice.publishedBy = publishedBy || notice.publishedBy;
-      notice.cre;
-
-      // Save the updated notice
-      const updatedNotice = await notice.save();
-      res.json(updatedNotice);
-    } else {
-      res.status(404).json({ message: "Notice not found" });
+    if (!notice) {
+      return res.status(404).json({
+        message: "Notice not found",
+      });
     }
+
+    // Check ownership
+    if (notice.department.toString() !== req.department._id.toString()) {
+      return res.status(403).json({
+        message: "Not your notice",
+      });
+    }
+
+    // update attachment if new file uploaded
+    if (req.file) {
+      const upload = await uploadFileToCloudinary(req.file);
+
+      notice.attachment = [{ url: upload.secure_url, altText: "Updated notice attachment"}]
+    }
+
+    notice.title = title || notice.title;
+
+    notice.description = description || notice.description;
+
+    notice.ward = ward || notice.ward;
+
+    notice.municipality = municipality || notice.municipality;
+
+    notice.priority = priority || notice.priority;
+
+    notice.status = status || notice.status;
+
+    // Save the updated notice
+    const updatedNotice = await notice.save();
+    res.json(updatedNotice);
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
@@ -80,18 +117,30 @@ router.put("/:id", protect, admin, async (req, res) => {
 // @route DELETE /api/notices/:id
 // @desc Delete a notice by ID
 // @access Private/Admin
-router.delete("/:id", protect, admin, async (req, res) => {
+router.delete("/:id", departmentProtect, async (req, res) => {
   try {
     // Find the notice by ID
     const notice = await Notice.findById(req.params.id);
 
-    if (notice) {
-      // Remove the notice from DB
-      await notice.deleteOne();
-      res.json({ message: "Notice removed" });
-    } else {
-      res.status(404).json({ message: "Notice not found" });
+    if (!notice) {
+      return res.status(404).json({
+        message: "Notice not found"
+      });
     }
+
+    // Check Department
+    if (notice.department.toString() !== req.department._id.toString()) {
+      return res.status(403).json({
+        message: "Nout your Notice"
+      })
+    }
+
+    await notice.deleteOne();
+
+    res.json({
+      message: "Notice Removed"
+    })
+    
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
@@ -130,7 +179,10 @@ router.get("/", async (req, res) => {
       ];
     }
 
-    let notices = await Notice.find(query).sort({ createAt: -1 });
+    const notices = await Notice.find(query)
+      .populate("department")
+      .populate("createdBy")
+      .sort({ createdAt: -1 });
     res.json(notices);
   } catch (error) {
     console.error(error);
@@ -157,7 +209,9 @@ router.get("/new-arrivals", async (req, res) => {
 // @access Public
 router.get("/:id", async (req, res) => {
   try {
-    const notice = await Notice.findById(req.params.id);
+    const notice = await Notice.findById(req.params.id)
+      .populate("department")
+      .populate("createdBy");
     if (notice) {
       res.json(notice);
     } else {

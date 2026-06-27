@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
     await user.save();
 
     // Create JWT Payload
-    const payload = { user: { id: user._id, role: user.role } };
+    const payload = { user: { id: user._id, role: user.role, department: user.department } };
 
     // Sign and return the token along with user data
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -37,6 +37,7 @@ router.post("/register", async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        department: user.department
       },
       token,
     });
@@ -69,7 +70,7 @@ router.post("/register", async (req, res) => {
           return res.status(400).json({ message: "Invalid Credentials" });
 
         // Create JWT Payload
-        const payload = { user: { id: user._id, role: user.role } };
+        const payload = { user: { id: user._id, role: user.role, department: user.department } };
 
         // Sign and return the token along with user data
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -83,6 +84,7 @@ router.post("/register", async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            department: user.department
           }, 
           token,
         });

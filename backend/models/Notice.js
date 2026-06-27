@@ -13,7 +13,7 @@ const noticeSchema = new mongoose.Schema({
 
     ward: {
         type: String,
-        default: "Ward No 1"
+        // required: true,
     },
 
     municipality: {
@@ -22,9 +22,8 @@ const noticeSchema = new mongoose.Schema({
     },
 
     department: {
-        type: String,
-        enum: ["health", "education", "tax", "electricity", "transport", "water", "general"],
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Department"
     },
 
     attachment: [
@@ -57,7 +56,7 @@ const noticeSchema = new mongoose.Schema({
 
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Department",
         required: true
     },
 

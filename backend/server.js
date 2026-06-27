@@ -4,6 +4,8 @@ const connectDB = require("./config/db");
 const cors = require("cors")
 const userRoutes = require("./routes/userRoutes")
 const noticeRoutes = require('./routes/noticeRoutes')
+const complaintRoutes = require("./routes/complaintRoutes")
+const departmentRoutes = require("./routes/departmentRoute")
 
 dotenv.config();
 const app = express();
@@ -25,7 +27,9 @@ app.get("/", (req, res) => {
 
 // API Routes
 app.use("/api/users", userRoutes);
-app.use("/api/notices", noticeRoutes )
+app.use("/api/notices", noticeRoutes);
+app.use("/api/complaints", complaintRoutes)
+app.use("/api/departments", departmentRoutes)
 
 
 
