@@ -5,6 +5,14 @@ import AdminLayout from './component/Admin/AdminLayout'
 import HeroSec from "./component/global/home/Herosec"
 import AdminHomePage from './layout/AdminHomePage'
 import UserManagement from './component/Admin/UserManagement'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Services from './pages/Services'
+import Events from './pages/Events'
+import Emergrncy from './pages/Emergrncy'
+import Gallery from './pages/Gallery'
+import About from './pages/About'
+
 
 const App = () => {
 
@@ -18,6 +26,11 @@ const App = () => {
         <Route path='/' element={<HomeLayout />}>
           {/* User Layout */}
           <Route index element={<HeroSec />} />
+          <Route path='services' element={<Services/>}/>
+          <Route path='event' element={<Events/>}/>
+          <Route path='emergency' element={<Emergrncy/>}/>
+          <Route path='gallery' element={<Gallery/>}/>
+          <Route path='about' element={<About/>}/>
         </Route>
 
         <Route path='/admin' element={<AdminLayout />}>
@@ -25,6 +38,9 @@ const App = () => {
           <Route index element={<AdminHomePage />} />
           <Route path='users' element={<UserManagement />} />
         </Route>
+
+        <Route path='login' element={<Login/>}/>
+        <Route path='signup' element={<Signup/>}/>
       </Routes>
     </BrowserRouter>
   )
