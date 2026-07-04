@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
+import { useContext } from "react";
+import { Authcontext } from "../../context/Authcontext";
 
 const Login = () => {
   const navigate = useNavigate();
+    const { login } = useContext(Authcontext);
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -29,14 +33,14 @@ const Login = () => {
 
       console.log(res.data);
 
-      // Example:
-      // localStorage.setItem("accessToken", res.data.accessToken);
+      
+      localStorage.setItem("Token", res.data.token);
 
-      alert("Login Successful!");
+      toast.success("Login Successful!");
       navigate("/");
     } catch (error) {
       console.log(error.response);
-      alert(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 

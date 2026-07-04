@@ -1,5 +1,4 @@
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import HomeLayout from './layout/HomeLayout'
 import AdminLayout from './component/Admin/AdminLayout'
 import HeroSec from "./component/global/home/Herosec"
@@ -12,6 +11,9 @@ import Events from './pages/Events'
 import Emergrncy from './pages/Emergrncy'
 import Gallery from './pages/Gallery'
 import About from './pages/About'
+import ProgressBar from './pages/Complaint/ProgessBar'
+import Step1Issue from './pages/Complaint/Step1Issue'
+import ComplaintWizard from './component/Complaint/ComplaintWizard'
 
 
 const App = () => {
@@ -38,9 +40,17 @@ const App = () => {
           <Route index element={<AdminHomePage />} />
           <Route path='users' element={<UserManagement />} />
         </Route>
-
+        {/* Authentication */}
         <Route path='login' element={<Login/>}/>
         <Route path='signup' element={<Signup/>}/>
+
+{/* Complaint Section */}
+           <Route path='complaintwizard' element={<ComplaintWizard/>}/>
+           <Route path='progress' element={<ProgressBar/>}/>
+           <Route path='issue' element={<Step1Issue/>}/>
+
+
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   )

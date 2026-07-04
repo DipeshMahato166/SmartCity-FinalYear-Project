@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 
 const Signup = () => {
@@ -30,7 +31,7 @@ const Signup = () => {
       );
 
       console.log(res.data);
-      alert("Registration Successful!");
+      toast.success("Registration Successful!");
 
       setFormData({
         name: "",
@@ -42,7 +43,7 @@ const Signup = () => {
     } catch (error) {
       console.error(error);
 
-      alert(
+      toast.error(
         error.response?.data?.message || "Registration Failed!"
       );
     }
