@@ -9,7 +9,7 @@ const steps = [
 const ProgressBar = ({ step }) => {
   return (
     <>
-      <div className="flex justify-between mb-2">
+      <div className="flex justify-around mb-2">
         {steps.map((item, index) => (
           <div
             key={index}

@@ -1,9 +1,29 @@
-import React from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Services = () => {
-  return (
-    <div className='pt-80'>Services</div>
-  )
-}
+  const [services, setServices] = useState([]);
 
-export default Services
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/notices");
+      setServices(res.data);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div className="pt-32 px-6">
+    
+    </div>
+  );
+  
+};
+
+export default Services;

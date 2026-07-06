@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
-import Button from "../Complaint/Button";
+import Button from "../Button";
 import { Link, useNavigate } from "react-router-dom";
 import { Authcontext } from "../../context/Authcontext";
+import { MdNotificationImportant } from "react-icons/md";
+
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useContext(Authcontext);
@@ -13,33 +15,30 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-[#003893] shadow-lg text-white font-serif">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow-2xl  ">
       <div className="flex justify-between items-center px-8 py-4">
 
         {/* Logo */}
-        <div>
-          <span className="text-4xl font-bold">Smart</span>
-          <span className="text-4xl font-bold text-[#DC143C]">City</span>
-          <br />
-          <span className="text-xl flex justify-center">
-            Portal
-          </span>
+        <div className="flex flex-col">
+          <span className="text-xl font-bold ">Smart City</span>
+          <span className=" text-[#DC143C]">Service portal</span>
+         
         </div>
 
-        {/* Menu */}
-        <ul className="flex items-center gap-8 text-lg ">
-          <li  className="hover:text-[#B01030]"><Link to="/">Home</Link></li>
-          <li className="hover:text-[#B01030]"><Link to="/services">Services</Link></li>
-          <li className="hover:text-[#B01030]"><Link to="/event">Events</Link></li>
-          <li className="hover:text-[#B01030]"><Link to="/gallery">Gallery</Link></li>
-          <li className="hover:text-[#B01030]"><Link to="/emergency">Emergency</Link></li>
-          <li className="hover:text-[#B01030]"><Link to="/complaintwizard">Complain section</Link></li>
-          <li className="hover:text-[#B01030]"><Link to="/about">About Us</Link></li>
-        </ul>
-
+        <div>
+          {/* Menu */}
+          <ul className="flex items-center text-[#131b29] gap-8  ">
+            <li className="hover:text-[#B01030]"><Link to="/">Home</Link></li>
+            <li className="hover:text-[#B01030]"><Link to="/services">Services</Link></li>
+            <li className="hover:text-[#B01030]"><Link to="/event">Events</Link></li>
+            <li className="hover:text-[#B01030]"><Link to="/complaintwizard">Complain section</Link></li>
+          <li className="hover:text-[#B01030] "><Link to="/emergency"> Emergency</Link></li>
+          </ul>
+        </div>
+        
         {isAuthenticated ? (
           <button
-            className="bg-[#DC143C]  hover:bg-[#B01030] border text-white p-2 rounded-xl w-30 text-lg"
+            className="bg-[#DC143C]  hover:bg-[#B01030] border h-10 flex justify-center items-center text-white p-2 rounded-xl w-30 text-lg"
             onClick={handleLogout}
           >
             Logout

@@ -159,14 +159,14 @@ const Step2Location = ({
           </label>
 
           <div className="mt-2 h-64 border-2 border-dashed rounded-lg flex justify-center items-center text-gray-400">
-            Google Map / Leaflet Map will be added here
+            Google Map will be added here
           </div>
         </div>
 
         {/* Upload Images */}
-        <div>
-          <label className="font-medium">
-            Upload Evidence
+        <div className="">
+          <label className="font-medium pr-2  ">
+            Upload Evidence:
           </label>
 
           <input
@@ -174,7 +174,7 @@ const Step2Location = ({
             multiple
             accept="image/*"
             onChange={handleImageUpload}
-            className="mt-3"
+            className="mt-3 border rounded-lg pl-3 cursor-pointer "
           />
         </div>
 

@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { useContext } from "react";
 import { Authcontext } from "../../context/Authcontext";
 
 const Login = () => {
   const navigate = useNavigate();
-    const { login } = useContext(Authcontext);
+  const { login } = useContext(Authcontext);
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -31,16 +30,17 @@ const Login = () => {
         loginData
       );
 
-      console.log(res.data);
-
-      
-      localStorage.setItem("Token", res.data.token);
+      // Update AuthContext and store token
+      login(res.data.token);
 
       toast.success("Login Successful!");
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
-      console.log(error.response);
-      toast.error(error.response?.data?.message || "Login failed");
+      console.error(error);
+
+      toast.error(
+        error.response?.data?.message || "Invalid email or password"
+      );
     }
   };
 
