@@ -2,7 +2,7 @@ import React from 'react'
 
 const Events = () => {
   return (
-    <div className='pt-60'>Events</div>
+    <div className='pt-70'>Events</div>
   )
 }
 

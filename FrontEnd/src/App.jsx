@@ -27,6 +27,9 @@ const App = () => {
           <Route path='services' element={<Services/>}/>
           <Route path='event' element={<Events/>}/>
           <Route path='emergency' element={<Emergrncy/>}/>
+
+{/* Complaint Section */}
+           <Route path='complaintwizard' element={<ComplaintWizard/>}/>
         </Route>
 
         <Route path='/admin' element={<AdminLayout />}>
@@ -37,9 +40,6 @@ const App = () => {
         {/* Authentication */}
         <Route path='login' element={<Login/>}/>
         <Route path='signup' element={<Signup/>}/>
-
-{/* Complaint Section */}
-           <Route path='complaintwizard' element={<ComplaintWizard/>}/>
 
 
         <Route path="*" element={<Navigate to="/login" replace />} />

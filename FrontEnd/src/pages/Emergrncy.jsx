@@ -2,7 +2,7 @@ import React from 'react'
 
 const Emergrncy = () => {
   return (
-    <div className='pt-60'>Emergrncy</div>
+    <div className='pt-70'>Emergrncy</div>
   )
 }
 

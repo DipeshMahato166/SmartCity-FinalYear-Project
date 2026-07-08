@@ -19,7 +19,7 @@ const Services = () => {
   }, []);
 
   return (
-    <div className="pt-32 px-6">
+    <div className="pt-76 px-6">
     
     </div>
   );

@@ -36,7 +36,7 @@ const ComplaintWizard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-10">
+    <div className="min-h-screen bg-slate-100 py-30">
       <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
 
         <ProgressBar step={step} />
