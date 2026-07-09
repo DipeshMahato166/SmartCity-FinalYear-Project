@@ -2,7 +2,7 @@ import React from 'react'
 
 const Button = ({props}) => {
   return (
-    <button  className= {`h-10 rounded-xl text-black ${props.bg} w-30 cursor-pointer` }>
+    <button  className= {`h-10 rounded-xl border text-white ${props.bg} w-30 cursor-pointer` }>
         {props.text}
     </button>
   )
