@@ -31,7 +31,12 @@ const uploadFileToCloudinary = (file) => {
   });
 };
 
-const multerMiddleware = multer({ dest: "uploads/" }).single("media");
+// Multer (Max 5 Images)
+const upload = multer({
+  dest: "uploads/",
+})
+
+const multerMiddleware = upload.array("images", 5);
 
 module.exports = {
   uploadFileToCloudinary,

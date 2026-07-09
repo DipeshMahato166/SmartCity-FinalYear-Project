@@ -3,7 +3,7 @@ const Department = require("../models/Department");
 
 
 
-const departmentProtect = async (req, res) => {
+const departmentProtect = async (req, res, next) => {
     
     let token;
 
@@ -17,21 +17,28 @@ const departmentProtect = async (req, res) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
             // Get department data
-            req.department = await Department.findById(decoded.department.id);
+            req.department = await Department.findById(decoded.department.id).select("-password");
 
             if (!req.department) {
                 return res.status(401).json({
-                    message: "Department not found"
+                    success: false,
+                    message: "Department not found",
                 })
             }
 
-            next();
+            return next();
         } catch (error) {
             return res.status(401).json({
-            message:"No token provided"
+                success: false,
+                message:"Invalid Token",
         });
         }
     }
+
+    return res.status(401).json({
+        success: false,
+        message: "Token required",
+    });
 }
 
 module.exports = { departmentProtect }

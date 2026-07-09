@@ -23,7 +23,7 @@ connectDB()
 
 
 app.get("/", (req, res) => {
-  res.send("Welcom back Dipesh")
+  res.send("Welcom back Dipesh and Suraj")
 })
 
 // API Routes

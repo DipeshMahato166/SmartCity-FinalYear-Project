@@ -6,12 +6,16 @@ const departmentSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
+      trim: true,
     },
 
     email: {
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
 
     password: {
@@ -20,14 +24,27 @@ const departmentSchema = new mongoose.Schema(
       minlength: 6,
     },
 
-    phone: String,
-
-    address: String,
-
-    admin: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+    phone: {
+      type: String,
+      required: true,
     },
+
+    address: {
+      type: String,
+      required: true,
+    },
+
+    description: {
+      type: String,
+      default: "",
+    },
+
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
+
   },
   { timestamps: true },
 );

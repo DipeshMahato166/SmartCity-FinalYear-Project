@@ -20,8 +20,26 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       minLength: 6,
+      default: null,
+    },
+    avatar: {
+      type: String,
+      default: '',
+    },
+    phone: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    googleId: {
+      type: String,
+      default: null,
+    },
+    authProvider: {
+      type: String,
+      enum: ['local', 'google'],
+      default: 'local'
     },
     role: {
       type: String,
@@ -38,8 +56,10 @@ const userSchema = new mongoose.Schema(
 );
 
 // Password Hash middleware
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.password) return;
+
+  if (!this.isModified("password")) return;
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
@@ -47,6 +67,7 @@ userSchema.pre("save", async function (next) {
 
 // Match User enterd password to Hashed password
 userSchema.methods.matchPassword = async function (enteredPassword) {
+  if (!this.password) return false;
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

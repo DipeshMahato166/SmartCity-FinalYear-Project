@@ -120,8 +120,9 @@ const AdminHomePage = () => {
                                             <td className="p-4">
                                                 {complaint.location}
                                             </td>
-                                            <td className="px-4 text-yellow-600">
-                                                {complaint.status}
+                                            <td className="px-4">
+                                                <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-2xl">{complaint.status}</span>
+                                                
                                             </td>
                                             <td className="p-4">
                                                 {complaint.date}
